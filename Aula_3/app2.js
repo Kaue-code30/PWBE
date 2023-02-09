@@ -35,7 +35,13 @@ entradaDados.question("valor 1: \n",function(numero1){
             else{
 
                 resultado = matematica.calcular(valor1,valor2,operacao);
-                console.log(resultado);
+                if(resultado == false){
+                    entradaDados.close();
+                }
+                else{
+                    console.log(resultado);
+                }
+                
             }
         })
     })
