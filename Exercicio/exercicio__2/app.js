@@ -1,0 +1,1 @@
+var matematica = require("./modulo/tabuada.js");
