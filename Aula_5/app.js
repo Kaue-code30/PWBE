@@ -12,6 +12,22 @@
 const listName = ["Kaue","Heloisa","Denise","Maycon","Matheus"]; // Acabamos de criar um Array. Colocar os elementos dentro do array.
 const listProducts = ["Teclado","Mouse","Monitor","Computador","Fone","Impressora","Scanner","WebCam"];
 
+const products = {};
+const listProductsJson = {};
+/*
+        Exemplo de JSON com estrutura de array.
+
+        produtos =
+        {
+            [
+                {nome : "Teclado", cor : "verde"}
+                {nome : "Monitor", cor : "verde"}
+                {nome : "Mouse", cor : "verde"}
+            ]
+        }
+*/
+
+
 const manipulandoElementos = function(){
     console.log(typeof(listName)) // **Quando usamos um typeof no array JS, ele encara o array como um objeto.**
 
@@ -106,13 +122,14 @@ const filtreElements = function(){
     console.log(newProducts);
 
 }
-var name = "Monitor"
 
-const removeElement = function(nameProduct){
-    let name = nameProduct;
-    let indice = listProducts.indexOf(name);
-    let newlist = listProducts.slice();
+const removeElement = function(array,nameItem){
+    let newlist = array.slice();
+
+    let name = nameItem;
+    let indice = newlist.indexOf(name);
     let status;
+
     if(indice >= 0 ){ // Vamos usar o SPLICE(), permite remover o elemento do array pelo indice.
         newlist.splice(indice,1)
         status = true;
@@ -129,5 +146,66 @@ const removeElement = function(nameProduct){
     
 }
 
-console.log(removeElement("Fone"))
-console.log(listProducts)
+// console.log(removeElement(listProducts,"Monitor"))
+
+const listagemProdutos = function(){
+
+    let listProductsJson = {};
+
+    let listProucts =
+    [
+        {nome : "Teclado DELL", valor :"R$199,99", quantidade : 50 },
+        {nome : "Monitor DELL", valor : "R$190,00", quantidade : 70 },
+        {nome : "Mouse DELL", valor : "R$90,00", quantidade : 10 }
+
+    ]
+
+    let listColor = ["Branco","Preto","Cinza"];
+    let listTypeTeclado = ["Mecânico", "Semi-Mecânico", "Membrana"];
+    let listTypeMonitor = ["LCD", "Full-HD", "4K","OLED"];
+
+
+    // Adiciona Chaves (Opçoes no objeto)
+    listProucts[0].cores = listColor;
+    listProucts[0].tipo = listTypeTeclado;
+
+    listProucts[1].tipo = listTypeMonitor;
+    listProucts[1].cores = listColor;
+    
+    listProucts[2].cores = listColor;
+
+
+    // Adiciona um chave nova, e coloca toda a estrutura dos produtos dentro dela.
+    listProductsJson.products = listProucts;
+
+    // Retorna todos os dados de produto(1° nível do dados JSON)
+    listProductsJson.products.forEach(function(dadosProdutos){
+        console.log(dadosProdutos.nome  )
+        console.log("-" + dadosProdutos.valor  )
+        if(dadosProdutos.cores != undefined){
+            dadosProdutos.cores.forEach(function(dadosCores){
+                console.log("--" +dadosCores)
+            
+            })
+        }   
+        if(dadosProdutos.tipo != undefined){
+                dadosProdutos.tipo.forEach(function(dadosTipos){
+                console.log("---" + dadosTipos)
+            })
+        }
+       
+        console.log("\n")
+    })
+   
+
+    
+    // // Mostrando o indice selecionado do JSON que está dentro de um array.
+    // console.log(listProductsJson.products[1].nome)
+    // console.log(listProductsJson.products[1].valor)
+    // console.log(listProductsJson.products[1].cores[1])
+
+}
+
+listagemProdutos()
+
+
