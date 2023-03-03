@@ -1,8 +1,8 @@
 /*************************************
  * Autor: Kauê Lima
- * Data: 27/02
- * Assunto:Array
+ * Data: 03/03
+ * Assunto:Array e JSON
  * Professor: Marcel
 */
 
-// Continuação ---->
+
