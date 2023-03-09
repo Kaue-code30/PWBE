@@ -44,6 +44,63 @@ const carros =
 
     listaDeCarros.Marcas = carros   
    
+    const getMarca = function(){
+        let jsonLista = {}
+        let lista = []
+
+        listaDeCarros.Marcas.forEach(function(dados){
+            lista.push(dados.marca)
+        })
+        jsonLista.marcas = lista
+        return jsonLista
+    }
+
+    const getMarcaECarro = function(){
+        let jsonLista = {}
+        let lista = []
+        listaDeCarros.Marcas.forEach(function(dados){
+            lista.push({marca:dados.marca,carros:dados.Modelo})
+        })
+        jsonLista.marcas = lista
+        return jsonLista.marcas[1]
+    }
+
+    const getModeloEValorCarro = function(carro){
+        let jsonLista = {}
+        let lista = []
+
+        listaDeCarros.Marcas.forEach(function(dados){
+            dados.Modelo.forEach(function(nomeCarro){
+                if(carro == nomeCarro.nome){
+                    lista.push({Nome:nomeCarro.nome,Valor:nomeCarro.Valor})
+                    jsonLista.lista = lista
+                }
+            }) 
+       
+       
+        })
+        return jsonLista
+       
+    }
+
+    const getCarroEAno = function(ano){
+        let jsonLista = {}
+        let lista = []
+
+        listaDeCarros.Marcas.forEach(function(dados){
+            dados.Modelo.forEach(function(carroNome){
+                if(ano == carroNome.Ano){
+                    lista.push({Modelo:carroNome.nome,Ano:carroNome.Ano,Marca:carroNome.Marca})
+                    jsonLista.carro = lista
+                }
+            })
+        })
+        return jsonLista
+    }
+
+
+console.log(getCarroEAno("2020"));
+    
 
 
 
@@ -55,6 +112,5 @@ const carros =
 
 
 
-
-     console.log(getAnoCarro("2020"));
+   
     
