@@ -22555,4 +22555,43 @@ const getEstadosRegiao = function(regiao){
    })
    return listaDeEstados
 }
-console.log();
+const getCapitalPais = function(pais){
+   estadosCidades.estados.forEach(function(dadosDosEstados){
+      listaDeEstados.capitais = lista
+      if(pais != dadosDosEstados.capital_pais){
+       lista.push({uf:dadosDosEstados.sigla,
+         descricao:dadosDosEstados.nome,
+         capital:dadosDosEstados.capital,
+         Regiao:dadosDosEstados.regiao,
+         capital_atual:dadosDosEstados.capital_pais.capital,   
+         anoInicio:dadosDosEstados.capital_pais.ano_inicio,
+         anoFim:dadosDosEstados.capital_pais.ano_fim})
+      
+      }
+    
+      
+   }) 
+   return listaDeEstados
+}
+const getCidades = function(estado){
+   estadosCidades.estados.forEach(function(dadosDosEstados){
+   
+      if(estado == dadosDosEstados.sigla){
+         lista.push({cidades:dadosDosEstados.cidades.forEach(function(cidades){
+            listaDeEstados.uf = dadosDosEstados.sigla
+            listaDeEstados.descricao = dadosDosEstados.nome
+            listaDeEstados.quantidadeCidades = dadosDosEstados.cidades.length
+            listaDeEstados.cidades = lista
+            
+            lista.push(cidades.nome)
+            
+         })})
+      }
+   })
+   return listaDeEstados
+}
+
+
+
+
+console.log(getCapitalPais());
