@@ -95,11 +95,12 @@ const carros =
                 }
             })
         })
-        return jsonLista
+    
+        return lista.length  != 0 ? jsonLista:false // 
     }
 
 
-console.log(getCarroEAno("2020"));
+console.log(getCarroEAno("2030"));
     
 
 
