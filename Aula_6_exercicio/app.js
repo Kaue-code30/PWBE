@@ -59,22 +59,198 @@ app.use((request,response,next)=>{
 })
 
 // Endpoints --> Pontos de parada 
+const estadosCidades = require('./modulo/estados_cidades.js')
+
 
 app.get("/estados",cors(),async function(request,response,next){ // endpoint para listar os Estados
 
-    const estadosCidades = require('./modulo/estados_cidades.js')
-    let listaDeEstados = estadosCidades.getEstadosRegiao("Sul")
+    let listaDeEstados = estadosCidades.getCapitalPais()
     
     response.json(listaDeEstados)
     response.status(200);
 
 });
+app.get('/estado/sigla/:uf', cors(), async function(request, response, next) {
+    //:uf - é uma variável que será utilizada para passagens de valores, na URL da requisição
+
+    //Recebe o valor da variável uf que será encaminhada na URL da requisição
+    let siglaEstado = request.params.uf
+    let statusCode
+    let dadosEstado = {}
+
+    //Tratamento para vaidar os valores encaminhados no parâmetro
+    if (siglaEstado == '' || siglaEstado == undefined || siglaEstado.length != 2 || !isNaN(siglaEstado)) {
+        statusCode = 400
+        dadosEstado.message = ("Não é possível processar a requisição pois a sigla do estado não foi informada ou não atende a quantidade de caracteres(2 digitos)")
+    } else {
+        //chama a função que filtra o estado pela sigla
+        let estado = estadosCidades.getDadosEstado(siglaEstado)
+            //valida se houve retorno válido da funçao
+        if (estado) {
+            statusCode = 200
+            dadosEstado = estado
+        } else {
+            statusCode = 404
+        }
+    }
+
+    response.status(statusCode)
+    response.json(dadosEstado)
+})
+
+app.get('/estado/capital/sigla/:uf', cors(), async function(request, response, next) {
+
+    //:uf - é uma variável que será utilizada para passagens de valores, na URL da requisição
+
+    //Recebe o valor da variável uf que será encaminhada na URL da requisição
+    let siglaEstado = request.params.uf
+    let statusCode
+    let capitalEstado = {}
+
+    //Tratamento para vaidar os valores encaminhados no parâmetro
+    if (siglaEstado == '' || siglaEstado == undefined || siglaEstado.length != 2 || !isNaN(siglaEstado)) {
+        statusCode = 400
+        capitalEstado.message = ("Não é possível processar a requisição pois a sigla do estado não foi informada ou não atende a quantidade de caracteres(2 digitos)")
+    } else {
+        //chama a função que filtra o estado pela sigla
+        let estado = estadosCidades.getCapitalEstado(siglaEstado)
+            //valida se houve retorno válido da funçao
+        if (estado) {
+            statusCode = 200
+            capitalEstado = estado
+        } else {
+            statusCode = 404
+        }
+    }
+
+    response.status(statusCode)
+    response.json(capitalEstado)
+})
+
+app.get('/estados/regiao/:regiao', cors(), async function(request, response, next) {
+
+    let regiao = request.params.regiao
+    let statusCode
+    let regiaoEstados = {}
+
+    if (regiao == '' || regiao == undefined || !isNaN(regiao)) {
+        statusCode = 400
+        regiaoEstados.message = ("Não é possível processar a requisição pois a região não foi informada")
+    } else {
+        let estados = estadosCidades.getEstadosRegiao(regiao)
+
+        if (estados) {
+            statusCode = 200
+            regiaoEstados = estados
+        } else {
+            statusCode = 404
+        }
+    }
+
+    response.status(statusCode)
+    response.json(regiaoEstados)
+})
+
+app.get('/estados/capital/pais', cors(), async function(request, response, next) {
+
+    let statusCode
+    let capitalPais = {}
+
+
+    let capital = estadosCidades.getCapitalPais()
+
+    if (capital) {
+        statusCode = 200
+        capitalPais = capital
+    } else {
+        statusCode = 404
+    }
+    response.status(statusCode)
+    response.json(capitalPais)
+})
+
+// app.get('/estados/cidades/sigla/:uf', cors(), async function(request, response, next) {
+
+//     let sigla = request.params.uf
+//     let statusCode
+//     let cidades = {}
+
+//     if (sigla == '' || sigla == undefined || !isNaN(sigla) || sigla.length != 2) {
+//         statusCode = 400
+//         cidades.message = ("Não é possível processar a requisição pois a sigla do estado não foi informada ou não atende a quantidade de caracteres(2 digitos)")
+//     } else {
+//         let estados = estadosCidades.getCidades(sigla)
+
+//         if (estados) {
+//             statusCode = 200
+//             cidades = estados
+//         } else {
+//             statusCode = 404
+//         }
+//     }
+
+//     response.status(statusCode)
+//     response.json(cidades)
+// })
+
+
+
+
+
+//EndPoint: Lista de cidades filtrada pela sigla do estado
+app.get("/cidades",cors(),async function(request,response, next){
+    let statusCode 
+    let dadosCidade = {}
+    let siglaEstado = request.query.uf // Recebe o valor da variavel e sera enviada por QueryString --> 
+    // ante do ? é o  endereço do site >< depois do ? são as variaveis  
+    // & serve para separar uma variavel da outra 
+    if (siglaEstado == '' || siglaEstado == undefined || !isNaN(siglaEstado) || siglaEstado.length != 2) {
+                statusCode = 400
+                dadosCidade.message = ("Não é possível processar a requisição pois a sigla do estado não foi informada ou não atende a quantidade de caracteres(2 digitos)")
+            } else {
+                let dadosEstado = estadosCidades.getCidades(siglaEstado)
+        
+                if (dadosEstado) {
+                    statusCode = 200
+                    dadosCidade = dadosEstado
+                } else {
+                    statusCode = 404
+                }
+            }
+
+
+            response.status(statusCode)
+            response.json(dadosCidade)
+
+    
+    
+});
+
+
+
+
+
+
+
+
+
+
+
+
+//Permite carregar os endPoints criados e aguardar as requisições 
+//pelo protocolo HTTP na porta 8080
+
+app.listen(8080, function() {
+    console.log('Servidor aguardando requisições na porta 8080');
+
+})
+
 
 
 //Permite carregar os endpoins criados e aguardar as requisições pelo protocolo http na porta 8080
-app.listen(8080,function(){
-    console.log("Servidor aguardando requisições na porta 8080.")
-})
+// app.listen(8080,function(){
+//     console.log("Servidor aguardando requisições na porta 8080.")
+// })
 
 
 

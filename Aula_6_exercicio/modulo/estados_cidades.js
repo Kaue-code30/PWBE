@@ -22583,21 +22583,24 @@ const getCapitalPais = function(){
    return listaDeEstados
 }
 const getCidades = function(estado){
+   let status = false
    estadosCidades.estados.forEach(function(dadosDosEstados){
    
       if(estado == dadosDosEstados.sigla){
-         lista.push({cidades:dadosDosEstados.cidades.forEach(function(cidades){
-            listaDeEstados.uf = dadosDosEstados.sigla
-            listaDeEstados.descricao = dadosDosEstados.nome
-            listaDeEstados.quantidadeCidades = dadosDosEstados.cidades.length
-            listaDeEstados.cidades = lista
-            
-            lista.push(cidades.nome)
-            
-         })})
+         listaDeEstados.uf = dadosDosEstados.sigla 
+         listaDeEstados.descricao = dadosDosEstados.nome
+         listaDeEstados.quantidade_cidades = dadosDosEstados.cidades.length
+         dadosDosEstados.cidades.forEach(listaDeCidades => {
+            lista.push(listaDeCidades.nome)
+            status = true
+         })
+
+         listaDeEstados.cidades = lista
       }
+      
    })
    return listaDeEstados
+   
 }
 
 
