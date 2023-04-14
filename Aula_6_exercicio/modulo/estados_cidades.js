@@ -22584,6 +22584,7 @@ const getCapitalPais = function(){
 }
 const getCidades = function(estado){
    let status = false
+   let lista = []
    estadosCidades.estados.forEach(function(dadosDosEstados){
    
       if(estado == dadosDosEstados.sigla){
@@ -22599,9 +22600,11 @@ const getCidades = function(estado){
       }
       
    })
+
    return listaDeEstados
    
 }
+console.log(getCidades("PE"));
 
 
 

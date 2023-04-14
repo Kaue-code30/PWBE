@@ -64,7 +64,7 @@ const estadosCidades = require('./modulo/estados_cidades.js')
 
 app.get("/estados",cors(),async function(request,response,next){ // endpoint para listar os Estados
 
-    let listaDeEstados = estadosCidades.getCapitalPais()
+    let listaDeEstados = estadosCidades.getListaDeEstados()
     
     response.json(listaDeEstados)
     response.status(200);
@@ -198,7 +198,7 @@ app.get('/estados/capital/pais', cors(), async function(request, response, next)
 
 
 //EndPoint: Lista de cidades filtrada pela sigla do estado
-app.get("/cidades",cors(),async function(request,response, next){
+app.get("/senai/cidades",cors(),async function(request,response, next){
     let statusCode 
     let dadosCidade = {}
     let siglaEstado = request.query.uf // Recebe o valor da variavel e sera enviada por QueryString --> 
@@ -240,7 +240,7 @@ app.get("/cidades",cors(),async function(request,response, next){
 //Permite carregar os endPoints criados e aguardar as requisições 
 //pelo protocolo HTTP na porta 8080
 
-app.listen(8080, function() {
+app.listen(8181, function() {
     console.log('Servidor aguardando requisições na porta 8080');
 
 })
