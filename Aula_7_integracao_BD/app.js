@@ -8,7 +8,7 @@ Objetivo: Integrar um Back-End com o Banco de Dados
 /* ----------------ANOTAÇÕES------------------------------------------------------------------------------------------------------------------
 Criação de uma API para se comunicar com o BD
 
-1-> Primeiro impostamos as bibliotecas do projeto
+1-> Primeiro importamos as bibliotecas do projeto
 
 2-> Criar um objeto utilizando a classe do express
 
@@ -47,6 +47,18 @@ app.use((request,response,next) => {
 *************************************************************************************************************************************/
     app.get('/v1/lion-school/aluno',cors(),async function(request, response){    // Retorna os dados dos alunos
 
+        let controllerAluno = require('./Controller/controller_aluno.js') //Import da controler do Aluno
+
+        let dados = await controllerAluno.selecionarTodosAlunos(); // Solicita ao controller todos os ALunos do BD
+
+        if(dados){ 
+            response.json(dados)
+            response.status(200)
+        }else{
+            response.json()
+            response.status(404)
+        }
+
     })
 
     app.get('/v1/lion-school/:id',cors(),async function(request,response){  // Retorna os dados pelo id
@@ -63,4 +75,8 @@ app.use((request,response,next) => {
 
     app.delete('/v1/lion-school/:id',cors(),async function(request,response){   // Exclui um aluno pelo ID
         
+    })
+
+    app.listen(8080, function(){
+        console.log("Servidor aguardando requisições na porta 8080")
     })
