@@ -18,13 +18,13 @@ Criação de uma API para se comunicar com o BD
 
 */ 
 
+
 // 1
 const cors = require('cors');
-const bodyParse = require('body-parser');
 const express = require('express');
 const { request } = require('http');
 const { response } = require('express');
-
+const bodyParser = require('body-parser');
 // 2 
 const app = express();
 
@@ -40,6 +40,10 @@ app.use((request,response,next) => {
     next();
 });
 
+// Criando uma const para realizar o processo de padronização de dados que vçao chegar no body da requisição.
+const bodyJson = bodyParser.json()
+const controllerAluno = require('./Controller/controller_aluno.js') //Import da controler do Aluno
+
 /************************************************************************************************************************************  
 *   EndPoint: Tabela de Aluno                                                                                                       *
 *   Versão: 1.0                                                                                                                     *
@@ -47,7 +51,7 @@ app.use((request,response,next) => {
 *************************************************************************************************************************************/
     app.get('/v1/lion-school/aluno',cors(),async function(request, response){    // Retorna os dados dos alunos
 
-        let controllerAluno = require('./Controller/controller_aluno.js') //Import da controler do Aluno
+       
 
         let dados = await controllerAluno.selecionarTodosAlunos(); // Solicita ao controller todos os ALunos do BD
 
@@ -65,11 +69,20 @@ app.use((request,response,next) => {
         
     })
 
-    app.post('/v1/lion-school/aluno',cors(),async function(request,response){   // Inserir um novo aluno
+    app.post('/v1/lion-school/aluno',cors(),bodyJson,async function(request,response){   // Inserir um novo aluno
+        // Recebe os dados encaminhados no body da requisição
+        let dataBody = request.body;
+        console.log(dataBody);
         
+        // Retorna o status code e a mensagem
+        let resultInsertData = await controllerAluno.insertAluno(dataBody);
+        response.status(resultInsertData.status);
+        response.json(resultInsertData)
+
+
     })
 
-    app.put('/v1/lion-school/:id',cors(),async function(request,response){  // Atualiza um aluno pelo ID
+    app.put('/v1/lion-school/:id',cors(), bodyJson,async function(request,response){  // Atualiza um aluno pelo ID
         
     })
 
